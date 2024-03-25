@@ -1,4 +1,8 @@
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Squares.Api.Data;
+
 namespace Squares.Api
 {
     public class Program
@@ -13,6 +17,9 @@ namespace Squares.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<SquaresDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SquaresDb")));
 
             var app = builder.Build();
 

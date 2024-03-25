@@ -1,39 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Squares.Api.Data;
 using Squares.Api.Models;
 
 namespace Squares.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PointsController : ControllerBase
+    public class PointsCollectionController : ControllerBase
     {   
-        private readonly ILogger<PointsController> _logger;
+        private readonly ILogger<PointsCollectionController> _logger;
 
-        public PointsController(ILogger<PointsController> logger)
+        private readonly SquaresDbContext _DbContext;
+      
+
+        public PointsCollectionController(SquaresDbContext context, ILogger<PointsCollectionController> logger)
         {
             _logger = logger;
+            _DbContext = context;
         }
         /// <summary>
         /// Gets a list of available collections
         /// </summary>
         /// <returns></returns>
-        [HttpGet(Name = "collection")]
-        public IEnumerable<PointsCollection> Get()
+        [HttpGet()]
+        public async Task<IEnumerable<PointsCollection>> Get()
         {
-            // TODO: Implement
-            return Enumerable.Range(1, 5).Select(index => new PointsCollection
-            {
-                CollectionId = Guid.NewGuid(),
-                Points = new List<Point>
-                {
-                    new Point{
-                    X = Random.Shared.Next(-20, 55),
-                    Y = Random.Shared.Next(-20, 55)
-                    }
-                }
-               
-            })
-            .ToArray();
+            
+            var pointsCollection = await _DbContext.PointsCollection.Include(collection=>collection.Points).ToListAsync();
+            return pointsCollection;
         }
 
         /// <summary>
@@ -41,11 +36,11 @@ namespace Squares.Api.Controllers
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
-        [HttpPut(Name = "collection")]
+        [HttpPut("collection")]
         public PointsCollection Put(PointsCollection points)
         {
             // TODO: Implement
-            points.CollectionId =  Guid.NewGuid();
+            points.PointsCollectionId =  Guid.NewGuid();
             return points;
         }
 
@@ -54,13 +49,13 @@ namespace Squares.Api.Controllers
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
-        [HttpGet(Name = "collection/{collectionId}")]
+        [HttpGet("collection/{collectionId}")]
         public PointsCollection DeletePoint(Guid collectionId)
         {
             // TODO: Implement
             var points = new PointsCollection
             {
-                CollectionId = collectionId
+                PointsCollectionId = collectionId
             };
             return points;
         }
@@ -70,13 +65,13 @@ namespace Squares.Api.Controllers
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
-        [HttpPut(Name = "collection/{collectionId}")]
+        [HttpPut("collection/{collectionId}")]
         public PointsCollection AddPoint(Guid collectionId, Point newPoint)
         {
             // TODO: Implement
             var points = new PointsCollection
             {
-                CollectionId = collectionId,
+                PointsCollectionId = collectionId,
                 Points = new List<Point> { newPoint }
             };
             return points;
@@ -89,13 +84,13 @@ namespace Squares.Api.Controllers
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
-        [HttpDelete(Name = "collection/{collectionId}/points")]
+        [HttpDelete("collection/{collectionId}/points")]
         public PointsCollection DeletePoint(Guid collectionId, Point newPoint)
         {
             // TODO: Implement
             var points = new PointsCollection
             {
-                CollectionId = collectionId
+                PointsCollectionId = collectionId
             };
             return points;
         }
@@ -105,13 +100,13 @@ namespace Squares.Api.Controllers
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
-        [HttpGet(Name = "collection/{collectionId}/squares")]
+        [HttpGet("collection/{collectionId}/squares")]
         public PointsCollection GetSquares(Guid collectionId, Point newPoint)
         {
             // TODO: Implement
             var points = new PointsCollection
             {
-                CollectionId = collectionId
+                PointsCollectionId = collectionId
             };
             return points;
         }

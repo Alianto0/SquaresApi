@@ -60,9 +60,19 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="PostDeploymentScripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Point.sql" />
-    <Build Include="dbo\Tables\PointCollection.sql" />
+    <Build Include="dbo\Tables\PointsCollection.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Squares.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="PostDeploymentScripts\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Squares.DB.refactorlog" />
   </ItemGroup>
 </Project>

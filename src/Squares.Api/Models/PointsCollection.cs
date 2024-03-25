@@ -2,7 +2,7 @@
 {
     public class PointsCollection
     {
-        public Guid CollectionId { get; set; }
-        public List<Point> Points { get; set; }
+        public Guid PointsCollectionId { get; set; }
+        public List<Point> Points { get; set; } = new List<Point>();
     }
 }

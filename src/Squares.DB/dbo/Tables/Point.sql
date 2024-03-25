@@ -1,6 +1,10 @@
 ﻿CREATE TABLE [dbo].[Point] (
-    [PointCollectionId] UNIQUEIDENTIFIER NULL,
-    [XCoordinate]       INT              NULL,
-    [YCoordinate]       INT              NULL
+    [PointId] INT NOT NULL IDENTITY, 
+    [PointsCollectionId] UNIQUEIDENTIFIER NOT NULL,
+    [XCoordinate]       INT              NOT NULL,
+    [YCoordinate]       INT              NOT NULL,
+    
+    CONSTRAINT [PK_Point] PRIMARY KEY ([PointId]), 
+    CONSTRAINT [FK_Point_PointsCollection] FOREIGN KEY ([PointsCollectionId]) REFERENCES [PointsCollection]([PointsCollectionId])
 );
 
