@@ -83,22 +83,25 @@ namespace Squares.Api.Controllers
             return collection;
         }
 
-
-
         /// <summary>
         /// FR - delete point from existing list.
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
         [HttpDelete("{collectionId}/points")]
-        public PointsCollection DeletePoint(Guid collectionId, Point newPoint)
+        public async Task <IActionResult> DeletePoint(Guid collectionId, Point pointToDelete)
         {
-            // TODO: Implement
-            var points = new PointsCollection
+            var collection = await GetPointsCollectionById(collectionId);
+            var pointToDeleteInDb = collection.Points.Where(p => p.XCoordinate == pointToDelete.XCoordinate && p.YCoordinate == pointToDelete.YCoordinate).FirstOrDefault();
+
+            if (pointToDeleteInDb is null)
             {
-                PointsCollectionId = collectionId
-            };
-            return points;
+                return NotFound();
+            }
+            collection.Points.Remove(pointToDeleteInDb);
+            _DbContext.SaveChanges();
+
+            return Ok(collection);
         }
 
         /// <summary>
@@ -121,7 +124,6 @@ namespace Squares.Api.Controllers
                 NumberOfSquares = squares.Count(),
                 SquaresCollection = squares
             };
-
 
             return response;
         }
