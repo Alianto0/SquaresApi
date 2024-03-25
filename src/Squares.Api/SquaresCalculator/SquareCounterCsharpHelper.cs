@@ -3,33 +3,39 @@ using Point = Squares.Api.Models.Point;
 
 namespace Squares.Api.SquaresCalculator
 {
+    /// <summary>
+    /// Squares retriever implementation from internet.
+    /// </summary>
     public class SquareCounterCsharpHelper : ISquareRetriever
     {
         public IEnumerable<Point[]> GetSquares(Point[] input)
         {
+            // Map to  System.Drawing.Point
             var mapToDrawingPoints = new System.Drawing.Point[input.Length];
 
             for (int i = 0; i < input.Length; i++)
             {
                 mapToDrawingPoints[i] = new System.Drawing.Point(input[i].XCoordinate, input[i].YCoordinate);
             }
+
+            // Invoke GetySquares
             var squaresIndexes = GetSquares(mapToDrawingPoints);
 
+            // Map back to Squares.Api.Models.Point
             var listSquares = new List<Point[]>();
-
             foreach (var index in squaresIndexes) {
-                listSquares.Add(new Point[]
-                {
+                listSquares.Add(
+                [
                     input[index[0]],
                     input[index[1]],
                     input[index[2]],
                     input[index[3]]
-                });
+                ]);
             }
             return listSquares;
         }
 
-        private new List<int[]> GetSquares(System.Drawing.Point[] input)
+        private List<int[]> GetSquares(System.Drawing.Point[] input)
         {
             var solutions = new List<int[]>();
             for (int i = 0; i < input.Length - 3; i++)
@@ -105,6 +111,5 @@ namespace Squares.Api.SquaresCalculator
             float dy = point1.Y - point2.Y;
             return (float)Math.Sqrt(dx * dx + dy * dy);
         }
-
     }
 }
