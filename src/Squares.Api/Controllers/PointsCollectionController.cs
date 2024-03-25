@@ -8,11 +8,11 @@ namespace Squares.Api.Controllers
     [ApiController]
     [Route("[controller]")]
     public class PointsCollectionController : ControllerBase
-    {   
+    {
         private readonly ILogger<PointsCollectionController> _logger;
 
         private readonly SquaresDbContext _DbContext;
-      
+
 
         public PointsCollectionController(SquaresDbContext context, ILogger<PointsCollectionController> logger)
         {
@@ -25,8 +25,8 @@ namespace Squares.Api.Controllers
         /// <returns></returns>
         [HttpGet()]
         public async Task<IEnumerable<PointsCollection>> Get()
-        {            
-            var pointsCollection = await _DbContext.PointsCollection.Include(collection=>collection.Points).ToListAsync();
+        {
+            var pointsCollection = await _DbContext.PointsCollection.Include(collection => collection.Points).ToListAsync();
             return pointsCollection;
         }
 
@@ -36,15 +36,24 @@ namespace Squares.Api.Controllers
         /// <param name="points"></param>
         /// <returns></returns>
         [HttpPut()]
-        public PointsCollection Put(PointsCollection points)
+        public async Task<IActionResult> Put(PointsCollection points)
         {
-            // TODO: Implement
             if (points.PointsCollectionId == Guid.Empty)
             {
                 points.PointsCollectionId = Guid.NewGuid();
             }
-            
-            return points;
+
+            var existingCollection = await GetPointsCollectionById(points.PointsCollectionId);
+
+            if(existingCollection is not null)
+            {
+                return BadRequest();
+            }
+
+            _DbContext.PointsCollection.Add(points);
+            _DbContext.SaveChanges();
+
+            return Ok(points);
         }
 
         /// <summary>
@@ -54,9 +63,8 @@ namespace Squares.Api.Controllers
         /// <returns></returns>
         [HttpGet("{collectionId}")]
         public async Task<PointsCollection> GetPointsCollection(Guid collectionId)
-        {
-            var pointsCollection = await _DbContext.PointsCollection.Include(collection => collection.Points).Where(collection => collection.PointsCollectionId == collectionId).ToListAsync();
-            return pointsCollection.Single();
+        {            
+            return await GetPointsCollectionById(collectionId);
         }
 
         /// <summary>
@@ -109,5 +117,11 @@ namespace Squares.Api.Controllers
             };
             return points;
         }
+
+        private async Task<PointsCollection> GetPointsCollectionById(Guid collectionId)
+        {
+            var pointsCollection = await _DbContext.PointsCollection.Include(collection => collection.Points).Where(collection => collection.PointsCollectionId == collectionId).ToListAsync();
+            return pointsCollection.FirstOrDefault();
+        }    
     }
 }
