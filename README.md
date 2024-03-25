@@ -1,0 +1,1 @@
+# Homework Squares Api solution
