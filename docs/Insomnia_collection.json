@@ -1,0 +1,337 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2024-03-25T15:36:46.178Z",
+    "__export_source": "insomnia.desktop.app:v8.6.1",
+    "resources": [{
+            "_id": "req_d8e9e45701cc4267815257748656cb8c",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711375859075,
+            "created": 1711347965648,
+            "url": "http://localhost:{{Port}}/PointsCollection",
+            "name": "PointsCollection",
+            "description": "",
+            "method": "GET",
+            "body": {
+                "mimeType": "application/json",
+                "text": ""
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965648,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "wrk_scratchpad",
+            "parentId": null,
+            "modified": 1711347947634,
+            "created": 1711347947634,
+            "name": "Scratch Pad",
+            "description": "",
+            "scope": "collection",
+            "_type": "workspace"
+        }, {
+            "_id": "req_207bc70ac4514b61b1d327612ca0a2bd",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711380860152,
+            "created": 1711367068758,
+            "url": "http://localhost:{{Port}}/PointsCollection",
+            "name": "Create Point Collection",
+            "description": "",
+            "method": "PUT",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"points\": [\n    {\n      \"xCoordinate\": 0,\n      \"yCoordinate\": 0\n    },\n\t\t {\n      \"xCoordinate\": 10,\n      \"yCoordinate\": 0\n    },\n\t\t {\n      \"xCoordinate\": 20,\n      \"yCoordinate\": 0\n    },{\n      \"xCoordinate\": 0,\n      \"yCoordinate\": 10\n    },{\n      \"xCoordinate\": 10,\n      \"yCoordinate\": 10\n    },{\n      \"xCoordinate\": 20,\n      \"yCoordinate\": 10\n    },{\n      \"xCoordinate\": 0,\n      \"yCoordinate\": 20\n    },{\n      \"xCoordinate\": 10,\n      \"yCoordinate\": 20\n    },{\n      \"xCoordinate\": 20,\n      \"yCoordinate\": 20\n    }\n  ]\n}"
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965623,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "req_bda8b368b0424e5b820442ccc12894d0",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711380852766,
+            "created": 1711374428380,
+            "url": "http://localhost:{{Port}}/PointsCollection/3b459e70-659c-4cec-916f-28effb7293b1/Points",
+            "name": "Add Point to Existing Collection",
+            "description": "",
+            "method": "PUT",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"xCoordinate\": 20,\n  \"yCoordinate\": 30\n}"
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965610.5,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "req_b3709f9a0d734e0e8fd8e2efd0c20f63",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711380885809,
+            "created": 1711375147692,
+            "url": "http://localhost:{{Port}}/PointsCollection/3b459e70-659c-4cec-916f-28effb7293b1/Points",
+            "name": "Delete Point from Collection",
+            "description": "",
+            "method": "DELETE",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"xCoordinate\": 0,\n  \"yCoordinate\": 30\n}"
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965604.25,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "req_d35c84c0c80749879f5625608721a199",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711380904495,
+            "created": 1711366844844,
+            "url": "http://localhost:{{Port}}/PointsCollection/3b459e70-659c-4cec-916f-28effb7293b1",
+            "name": "Get Points Collection by Id",
+            "description": "",
+            "method": "GET",
+            "body": {
+                "mimeType": "application/json",
+                "text": ""
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965598,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "req_e4ac8b8489a14867bebc2fd11f5cc1ca",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711380928988,
+            "created": 1711369061035,
+            "url": "http://localhost:{{Port}}/PointsCollection/6679d2c8-60ab-46e4-bfe2-2d77f226d8b1/squares",
+            "name": "Get Squares Example 1",
+            "description": "",
+            "method": "GET",
+            "body": {
+                "mimeType": "application/json",
+                "text": ""
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965548,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "req_3ad3e3d7f6e54939becf80a9a9c662a6",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711380940993,
+            "created": 1711373393442,
+            "url": "http://localhost:{{Port}}/PointsCollection/3b459e70-659c-4cec-916f-28effb7293b1/squares",
+            "name": "Get Sqaures Example 2",
+            "description": "",
+            "method": "GET",
+            "body": {
+                "mimeType": "application/json",
+                "text": ""
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965523,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "req_8c38d7d5e17144aca0684b13451a74d8",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711380966380,
+            "created": 1711371941862,
+            "url": "http://localhost:{{Port}}/PointsCollection/91bdabc6-b60c-43bf-9486-02da55ed937d/squares",
+            "name": "Get Squares Example 3",
+            "description": "",
+            "method": "GET",
+            "body": {
+                "mimeType": "application/json",
+                "text": ""
+            },
+            "parameters": [],
+            "headers": [{
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }, {
+                    "name": "User-Agent",
+                    "value": "insomnia/8.6.1"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1711347965498,
+            "isPrivate": false,
+            "pathParameters": [],
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        }, {
+            "_id": "env_99d30891da4bdcebc63947a8fc17f076de878684",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711375782799,
+            "created": 1711347958271,
+            "name": "Base Environment",
+            "data": {
+                "Port": 53852
+            },
+            "dataPropertyOrder": {
+                "&": ["Port"]
+            },
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1711347958271,
+            "_type": "environment"
+        }, {
+            "_id": "jar_99d30891da4bdcebc63947a8fc17f076de878684",
+            "parentId": "wrk_scratchpad",
+            "modified": 1711347958275,
+            "created": 1711347958275,
+            "name": "Default Jar",
+            "cookies": [],
+            "_type": "cookie_jar"
+        }, {
+            "_id": "env_48dde4d6bfdc4a638ed6ae1f302ed6d1",
+            "parentId": "env_99d30891da4bdcebc63947a8fc17f076de878684",
+            "modified": 1711375814683,
+            "created": 1711375789043,
+            "name": "Local http",
+            "data": {
+                "Port": 5000
+            },
+            "dataPropertyOrder": {
+                "&": ["Port"]
+            },
+            "color": null,
+            "isPrivate": true,
+            "metaSortKey": 1711375789043,
+            "_type": "environment"
+        }, {
+            "_id": "env_b24d92abb21a47b09481b65ecb5242cd",
+            "parentId": "env_99d30891da4bdcebc63947a8fc17f076de878684",
+            "modified": 1711378662899,
+            "created": 1711375817201,
+            "name": "Local Docker",
+            "data": {
+                "Port": 52900
+            },
+            "dataPropertyOrder": {
+                "&": ["Port"]
+            },
+            "color": null,
+            "isPrivate": true,
+            "metaSortKey": 1711375817201,
+            "_type": "environment"
+        }
+    ]
+}

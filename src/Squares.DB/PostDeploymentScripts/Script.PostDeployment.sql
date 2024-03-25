@@ -74,3 +74,24 @@ INSERT INTO [dbo].[Point]
 SELECT PointsCollectionId, XCoordinate, YCoordinate FROM #PointsTestData 
 
 GO
+IF NOT EXISTS 
+    (SELECT name  
+     FROM master.sys.server_principals
+     WHERE name = 'SquaresApi')
+BEGIN
+CREATE LOGIN [SquaresApi] WITH PASSWORD=N'FN+DHMly8u8UgHi3tsnsOIv+3lJxA0fjRbWwCZbs1Oo=', DEFAULT_DATABASE=[Squares], DEFAULT_LANGUAGE=[us_english], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+END
+GO
+USE [Squares]
+
+IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = N'SquaresApi')
+BEGIN
+CREATE USER [SquaresApi] FOR LOGIN [SquaresApi]
+END
+GO
+USE [Squares]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [SquaresApi]
+GO
+
+GO

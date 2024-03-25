@@ -11,31 +11,31 @@ namespace Squares.Api.Controllers
     public class PointsCollectionController : ControllerBase
     {
         private readonly ISquareRetriever _squareCounter;
-        private readonly SquaresDbContext _DbContext;
+        private readonly SquaresDbContext _dbContext;
 
         public PointsCollectionController(SquaresDbContext context, ISquareRetriever squareCounter)
         {
             _squareCounter = squareCounter;
-            _DbContext = context;
+            _dbContext = context;
         }
 
         /// <summary>
         /// Gets a list of available collections
         /// </summary>
-        /// <returns></returns>
         [HttpGet()]
         public async Task<IEnumerable<PointsCollection>> Get()
         {
-            var pointsCollection = await _DbContext.PointsCollection.ToListAsync();
+            var pointsCollection = await _dbContext.PointsCollection.ToListAsync();
             return pointsCollection;
         }
 
         /// <summary>
         /// FR - Import List of points.
         /// </summary>
-        /// <param name="points"></param>
-        /// <returns></returns>
         [HttpPut()]
+        [ProducesResponseType(StatusCodes.Status200OK,Type = typeof(PointsCollection))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put(PointsCollection points)
         {
             if (points.PointsCollectionId == Guid.Empty)
@@ -50,8 +50,8 @@ namespace Squares.Api.Controllers
                 return BadRequest();
             }
 
-            _DbContext.PointsCollection.Add(points);
-            _DbContext.SaveChanges();
+            _dbContext.PointsCollection.Add(points);
+            _dbContext.SaveChanges();
 
             return Ok(points);
         }
@@ -59,39 +59,56 @@ namespace Squares.Api.Controllers
         /// <summary>
         /// Gets point collection.
         /// </summary>
-        /// <param name="points"></param>
-        /// <returns></returns>
         [HttpGet("{collectionId}")]
-        public async Task<PointsCollection> GetPointsCollection(Guid collectionId)
-        {            
-            return await GetPointsCollectionById(collectionId);
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PointsCollection))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPointsCollection(Guid collectionId)
+        {
+            var collection = await GetPointsCollectionById(collectionId);
+
+            if (collection is null)
+            {
+                return NotFound();
+            }
+            return Ok(collection);
         }
 
         /// <summary>
         /// FR - add point to existing list.
         /// </summary>
-        /// <param name="points"></param>
-        /// <returns></returns>
         [HttpPut("{collectionId}/points")]
-        public async Task<PointsCollection> AddPoint(Guid collectionId, Point newPoint)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PointsCollection))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AddPoint(Guid collectionId, Point newPoint)
         {
             var collection = await GetPointsCollectionById(collectionId);
 
-            collection.Points.Add(newPoint);
-            _DbContext.SaveChanges();
+            if (collection is null)
+            {
+                return NotFound();
+            }
 
-            return collection;
+            collection.Points.Add(newPoint);
+            _dbContext.SaveChanges();
+
+            return Ok(collection);
         }
 
         /// <summary>
         /// FR - delete point from existing list.
         /// </summary>
-        /// <param name="points"></param>
-        /// <returns></returns>
         [HttpDelete("{collectionId}/points")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PointsCollection))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task <IActionResult> DeletePoint(Guid collectionId, Point pointToDelete)
         {
             var collection = await GetPointsCollectionById(collectionId);
+
+            if (collection is null)
+            {
+                return NotFound();
+            }
+
             var pointToDeleteInDb = collection.Points.Where(p => p.XCoordinate == pointToDelete.XCoordinate && p.YCoordinate == pointToDelete.YCoordinate).FirstOrDefault();
 
             if (pointToDeleteInDb is null)
@@ -99,7 +116,7 @@ namespace Squares.Api.Controllers
                 return NotFound();
             }
             collection.Points.Remove(pointToDeleteInDb);
-            _DbContext.SaveChanges();
+            _dbContext.SaveChanges();
 
             return Ok(collection);
         }
@@ -107,14 +124,18 @@ namespace Squares.Api.Controllers
         /// <summary>
         /// FR - retrieve squares.
         /// </summary>
-        /// <param name="points"></param>
-        /// <returns></returns>
         [HttpGet("{collectionId}/squares")]
-        public async Task<SquaresResponse> GetSquares(Guid collectionId)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SquaresResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetSquares(Guid collectionId)
         {
             var collection = await GetPointsCollectionById(collectionId);
+            if (collection is null)
+            {
+                return NotFound();
+            }
 
-            var pointsArray = collection.Points.ToArray();
+            var pointsArray = collection.Points.ToArray();            
 
             var squares = _squareCounter.GetSquares(pointsArray);
 
@@ -125,12 +146,12 @@ namespace Squares.Api.Controllers
                 SquaresCollection = squares
             };
 
-            return response;
+            return Ok(response);
         }
 
-        private async Task<PointsCollection> GetPointsCollectionById(Guid collectionId)
+        private async Task<PointsCollection?> GetPointsCollectionById(Guid collectionId)
         {
-            var pointsCollection = await _DbContext.PointsCollection.Include(collection => collection.Points).Where(collection => collection.PointsCollectionId == collectionId).ToListAsync();
+            var pointsCollection = await _dbContext.PointsCollection.Include(collection => collection.Points).Where(collection => collection.PointsCollectionId == collectionId).ToListAsync();
             return pointsCollection.FirstOrDefault();
         }    
     }
