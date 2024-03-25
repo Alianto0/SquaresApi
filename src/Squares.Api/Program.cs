@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Squares.Api.Data;
+using Squares.Api.SquaresCalculator;
 
 namespace Squares.Api
 {
@@ -20,6 +21,7 @@ namespace Squares.Api
 
             builder.Services.AddDbContext<SquaresDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("SquaresDb")));
+            builder.Services.AddSingleton<ISquareRetriever, SquareCounterCsharpHelper>();
 
             var app = builder.Build();
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Squares.Api.Data;
 using Squares.Api.Models;
+using Squares.Api.SquaresCalculator;
 
 namespace Squares.Api.Controllers
 {
@@ -10,13 +11,14 @@ namespace Squares.Api.Controllers
     public class PointsCollectionController : ControllerBase
     {
         private readonly ILogger<PointsCollectionController> _logger;
-
+        private readonly ISquareRetriever _squareCounter;
         private readonly SquaresDbContext _DbContext;
 
 
-        public PointsCollectionController(SquaresDbContext context, ILogger<PointsCollectionController> logger)
+        public PointsCollectionController(SquaresDbContext context, ILogger<PointsCollectionController> logger, ISquareRetriever squareCounter)
         {
             _logger = logger;
+            _squareCounter = squareCounter;
             _DbContext = context;
         }
         /// <summary>
@@ -108,14 +110,22 @@ namespace Squares.Api.Controllers
         /// <param name="points"></param>
         /// <returns></returns>
         [HttpGet("{collectionId}/squares")]
-        public PointsCollection GetSquares(Guid collectionId, Point newPoint)
+        public async Task<SquaresResponse> GetSquares(Guid collectionId)
         {
-            // TODO: Implement
-            var points = new PointsCollection
+            var collection = await GetPointsCollectionById(collectionId);
+
+            var pointsArray = collection.Points.ToArray();
+
+            var squares = _squareCounter.GetSquares(pointsArray);
+
+            SquaresResponse response = new SquaresResponse()
             {
-                PointsCollectionId = collectionId
+                PointsCollection = collection,
+                SquaresCollection = squares
             };
-            return points;
+
+
+            return response;
         }
 
         private async Task<PointsCollection> GetPointsCollectionById(Guid collectionId)

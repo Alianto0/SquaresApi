@@ -7,6 +7,12 @@ namespace Squares.Api.Models
     [Table("Point")]
     public class Point
     {
+        public Point(int xCoordinate, int yCoordinate)
+        {
+            XCoordinate = xCoordinate;
+            YCoordinate = yCoordinate;
+        }
+
         [JsonIgnore]
         [Key]
         public int PointId { get; set; }
