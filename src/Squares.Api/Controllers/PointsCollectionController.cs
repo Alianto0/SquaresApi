@@ -10,17 +10,15 @@ namespace Squares.Api.Controllers
     [Route("[controller]")]
     public class PointsCollectionController : ControllerBase
     {
-        private readonly ILogger<PointsCollectionController> _logger;
         private readonly ISquareRetriever _squareCounter;
         private readonly SquaresDbContext _DbContext;
 
-
-        public PointsCollectionController(SquaresDbContext context, ILogger<PointsCollectionController> logger, ISquareRetriever squareCounter)
+        public PointsCollectionController(SquaresDbContext context, ISquareRetriever squareCounter)
         {
-            _logger = logger;
             _squareCounter = squareCounter;
             _DbContext = context;
         }
+
         /// <summary>
         /// Gets a list of available collections
         /// </summary>
@@ -28,7 +26,7 @@ namespace Squares.Api.Controllers
         [HttpGet()]
         public async Task<IEnumerable<PointsCollection>> Get()
         {
-            var pointsCollection = await _DbContext.PointsCollection.Include(collection => collection.Points).ToListAsync();
+            var pointsCollection = await _DbContext.PointsCollection.ToListAsync();
             return pointsCollection;
         }
 
@@ -74,16 +72,15 @@ namespace Squares.Api.Controllers
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
-        [HttpPut("{collectionId}")]
-        public PointsCollection AddPoint(Guid collectionId, Point newPoint)
+        [HttpPut("{collectionId}/points")]
+        public async Task<PointsCollection> AddPoint(Guid collectionId, Point newPoint)
         {
-            // TODO: Implement
-            var points = new PointsCollection
-            {
-                PointsCollectionId = collectionId,
-                Points = new List<Point> { newPoint }
-            };
-            return points;
+            var collection = await GetPointsCollectionById(collectionId);
+
+            collection.Points.Add(newPoint);
+            _DbContext.SaveChanges();
+
+            return collection;
         }
 
 
@@ -121,6 +118,7 @@ namespace Squares.Api.Controllers
             SquaresResponse response = new SquaresResponse()
             {
                 PointsCollection = collection,
+                NumberOfSquares = squares.Count(),
                 SquaresCollection = squares
             };
 
