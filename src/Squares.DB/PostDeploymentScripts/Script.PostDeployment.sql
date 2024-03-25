@@ -74,6 +74,7 @@ INSERT INTO [dbo].[Point]
 SELECT PointsCollectionId, XCoordinate, YCoordinate FROM #PointsTestData 
 
 GO
+-- Create login for development purposes
 IF NOT EXISTS 
     (SELECT name  
      FROM master.sys.server_principals

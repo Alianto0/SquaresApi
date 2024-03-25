@@ -13,7 +13,6 @@ namespace Squares.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers()
                 .AddJsonOptions(options => {
                 options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
@@ -24,7 +23,8 @@ namespace Squares.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<SquaresDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SquaresDb")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SquaresDb")));
+
             builder.Services.AddSingleton<ISquareRetriever, SquareCounterCsharpHelper>();
 
             var app = builder.Build();
