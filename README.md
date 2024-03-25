@@ -1,6 +1,6 @@
 # Homework Squares Api solution
 
-#Startup
+# Startup
 1. Clone the repo and open `Squares.sln`
 1. Install Docker
 1. Install SQL Server Express 
